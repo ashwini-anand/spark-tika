@@ -10,8 +10,6 @@ import org.apache.tika.metadata.Metadata;
 import scala.Tuple2;
 
 import java.io.DataInputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by asanand on 2/14/17.
@@ -27,20 +25,19 @@ public class FileDetectorHdfs {
                 fs.delete(outputPath, true);
             }
 
-            JavaRDD<Map<String, String>> results = files.map(new Function<Tuple2<String, PortableDataStream>, Map<String, String>>() {
-                public Map<String, String> call(Tuple2<String, PortableDataStream> stringPortableDataStreamTuple2) throws Exception {
+            JavaRDD<MetadataStore> results = files.map(new Function<Tuple2<String, PortableDataStream>, MetadataStore>() {
+                public MetadataStore call(Tuple2<String, PortableDataStream> stringPortableDataStreamTuple2) throws Exception {
                     DataInputStream dis = stringPortableDataStreamTuple2._2.open();
                     Tika tika = new Tika();
-                    Map<String, String> metadata = new HashMap();
+                    MetadataStore metadataStore = new MetadataStore();
                     Metadata tikaMetadata = new Metadata();
                     tika.parse(dis, tikaMetadata);
                     String[] names = tikaMetadata.names();
-                    metadata.put("File Name", stringPortableDataStreamTuple2._1 + "\n");
+                    metadataStore.getMetadata().put("File Name", stringPortableDataStreamTuple2._1);
                     for (String name : names) {
-                        metadata.put(name, tikaMetadata.get(name) + "\n");
+                        metadataStore.getMetadata().put(name, tikaMetadata.get(name));
                     }
-                    metadata.put("----------------------------END------------------------", "\n\n");
-                    return metadata;
+                    return metadataStore;
                 }
             });
             results.saveAsTextFile(args[1]); // is coalesce(1,true).saveAsTextFile needed ?

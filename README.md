@@ -13,4 +13,9 @@ $export SPARK_MAJOR_VERSION=version_num <br />
 
 2) see first 400 line of output file <br />
 $hdfs dfs -cat /user/root/output/* | head -400
+
+3) To see time , prefix the command with time <br />
+e.g. $time spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 4g --executor-memory 2g --executor-cores 1 --queue default jars/spark-tika.jar hdfs:/user/admin2 hdfs:/user/admin/output <br/>
+
+4)running spark-tika on 1GB pdf files + some amount of ORC files with --driver-memory 8g and --executor-memory 6g takes around 38 seconds. <br />
  

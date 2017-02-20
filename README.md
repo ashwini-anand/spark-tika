@@ -5,3 +5,12 @@ Example of how to run spark-tika on hadoop cluster:
 $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 4g --executor-memory 2g --executor-cores 1 --queue default jars/spark-tika.jar hdfs:/user/admin2 hdfs:/user/admin/output <br/>
 
 After .jar , first param is input path and second param is output path.
+
+Misc: <br />
+1) Setting spark version
+$export SPARK_MAJOR_VERSION=version_num <br />
+ where version_num can be 1 or 2<br />
+
+2) see first 400 line of output file <br />
+$hdfs dfs -cat /user/root/output/* | head -400
+ 

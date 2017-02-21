@@ -7,7 +7,7 @@ $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --dri
 After .jar , first param is input path and second param is output path.
 
 Misc: <br />
-1) Setting spark version
+1) Setting spark version <br />
 $export SPARK_MAJOR_VERSION=version_num <br />
  where version_num can be 1 or 2<br />
 
@@ -19,3 +19,6 @@ e.g. $time spark-submit --class FileDetectorHdfs --master yarn --deploy-mode clu
 
 4)running spark-tika on 1GB pdf files + some amount of ORC files with --driver-memory 8g and --executor-memory 6g takes around 38 seconds on a cluster with 5 nodes. <br />
  
+5) To see yarn log for an application <br />
+$yarn logs -applicationId \<applicationId\>   <br />
+(look for application id in console logs or in ambari)  <br />

@@ -22,3 +22,7 @@ e.g. $time spark-submit --class FileDetectorHdfs --master yarn --deploy-mode clu
 5) To see yarn log for an application <br />
 $yarn logs -applicationId \<applicationId\>   <br />
 (look for application id in console logs or in ambari)  <br />
+
+6) To see yarn log for an application for a specific string/keyword <br />
+$yarn logs -applicationId \<applicationId\> | grep ""string"  <br />
+(look for application id in console logs or in ambari)  <br />

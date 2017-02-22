@@ -19,10 +19,10 @@ e.g. $time spark-submit --class FileDetectorHdfs --master yarn --deploy-mode clu
 
 4)running spark-tika on 1GB pdf files + some amount of ORC files with --driver-memory 8g and --executor-memory 6g takes around 38 seconds on a cluster with 5 nodes. <br />
  
-5) To see yarn log for an application <br />
+5) To see yarn log of an application <br />
 $yarn logs -applicationId \<applicationId\>   <br />
 (look for application id in console logs or in ambari)  <br />
 
-6) To see yarn log for an application for a specific string/keyword <br />
+6) To see yarn log of an application for a specific string/keyword <br />
 $yarn logs -applicationId \<applicationId\> | grep ""string"  <br />
 (look for application id in console logs or in ambari)  <br />

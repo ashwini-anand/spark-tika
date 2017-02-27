@@ -24,5 +24,5 @@ $yarn logs -applicationId \<applicationId\>   <br />
 (look for application id in console logs or in ambari)  <br />
 
 6) To see yarn log of an application for a specific string/keyword <br />
-$yarn logs -applicationId \<applicationId\> | grep ""string"  <br />
+$yarn logs -applicationId \<applicationId\> | grep "string"  <br />
 (look for application id in console logs or in ambari)  <br />

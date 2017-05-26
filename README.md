@@ -5,8 +5,10 @@ Example of how to run spark-tika on hadoop cluster:
 $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 6g --executor-memory 14g --num-executors 5 --executor-cores 10 --queue default jars/tmpvar/spark-tika.jar /user/pdf_100000kb_160_files /user/root/output 40 <br/>
 
 After .jar , first param is input path , second param is output path , third param is minPartitions (give minPartitions as -1 if you want spark to use default minPartitions)
-
-Misc: <br />
+<br/><br/>
+To use G1GC garbage collector and to print garbage collection details run following command: <br/>
+$spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 6g --executor-memory 24g --num-executors 4 --executor-cores 10 --conf "spark.executor.extraJavaOptions=-XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps" --queue default jars/tmpvar/spark-tika.jar /user/pdf_100000kb_160_files /user/root/output 40
+<br/>Misc: <br />
 1) Setting spark version <br />
 $export SPARK_MAJOR_VERSION=version_num <br />
  where version_num can be 1 or 2<br />

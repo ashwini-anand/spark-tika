@@ -1,14 +1,14 @@
 # spark-tika
 This source code is for tika on spark. <br />
 To detect ORC files also, clone https://github.com/ashwini-anand/tika and install it using maven and include it in spark-tika-app's pom.xml .<br />
-Example of how to run spark-tika on hadoop cluster:
+<b>Example of how to run spark-tika on hadoop cluster</b>:<br/>
 $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 6g --executor-memory 14g --num-executors 5 --executor-cores 10 --queue default jars/tmpvar/spark-tika.jar /user/pdf_100000kb_160_files /user/root/output 40 <br/>
 
 After .jar , first param is input path , second param is output path , third param is minPartitions (give minPartitions as -1 if you want spark to use default minPartitions)
 <br/><br/>
-To use G1GC garbage collector and to print garbage collection details run following command: <br/>
+<b>To use G1GC garbage collector and to print garbage collection details run following command</b>: <br/>
 $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 6g --executor-memory 24g --num-executors 4 --executor-cores 10 --conf "spark.executor.extraJavaOptions=-XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps" --queue default jars/tmpvar/spark-tika.jar /user/pdf_100000kb_160_files /user/root/output 40
-<br/>Misc: <br />
+<br/><br/>Misc: <br />
 1) Setting spark version <br />
 $export SPARK_MAJOR_VERSION=version_num <br />
  where version_num can be 1 or 2<br />

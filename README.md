@@ -12,7 +12,7 @@ $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --dri
 <b> To understand spark UI and to troubleshoot spark application please follow the below link</b>:<br/>
  https://github.com/ashwini-anand/Understanding-Spark-UI-and-Troubleshooting-application
 
-<br/><br/>Misc: <br />
+<br/><b>Misc</b>: <br />
 1) Setting spark version <br />
 $export SPARK_MAJOR_VERSION=version_num <br />
  where version_num can be 1 or 2<br />

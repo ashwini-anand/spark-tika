@@ -17,30 +17,40 @@ import java.io.DataInputStream;
 public class FileDetectorHdfs {
     public static void main(String[] args) {
         JavaSparkContext sc = new JavaSparkContext();
-        JavaPairRDD<String, PortableDataStream> files = sc.binaryFiles(args[0]); //like "hdfs:/user/admin2"
+
         try {
             FileSystem fs = FileSystem.get(sc.hadoopConfiguration());
-            Path outputPath = new Path(args[1]);
-            if (fs.exists(outputPath)) {
-                fs.delete(outputPath, true);
-            }
-
-            JavaRDD<MetadataStore> results = files.map(new Function<Tuple2<String, PortableDataStream>, MetadataStore>() {
-                public MetadataStore call(Tuple2<String, PortableDataStream> stringPortableDataStreamTuple2) throws Exception {
-                    DataInputStream dis = stringPortableDataStreamTuple2._2.open();
-                    Tika tika = new Tika();
-                    MetadataStore metadataStore = new MetadataStore();
-                    Metadata tikaMetadata = new Metadata();
-                    tika.parse(dis, tikaMetadata);
-                    String[] names = tikaMetadata.names();
-                    metadataStore.getMetadata().put("File Name", stringPortableDataStreamTuple2._1);
-                    for (String name : names) {
-                        metadataStore.getMetadata().put(name, tikaMetadata.get(name));
-                    }
-                    return metadataStore;
+            int minPartitions = Integer.parseInt(args[2]);
+            for (String arg : args[0].split(",")) {
+                JavaPairRDD<String, PortableDataStream> files;
+                if(minPartitions != -1){
+                    files = sc.binaryFiles(arg,minPartitions); //like "hdfs:/user/admin2"
+                }else{
+                    files = sc.binaryFiles(arg); //like "hdfs:/user/admin2"
                 }
-            });
-            results.saveAsTextFile(args[1]); // is coalesce(1,true).saveAsTextFile needed ?
+
+                System.out.println("Partition size: " + files.partitions().size());
+                JavaRDD<MetadataStore> results = files.map(new Function<Tuple2<String, PortableDataStream>, MetadataStore>() {
+                    public MetadataStore call(Tuple2<String, PortableDataStream> stringPortableDataStreamTuple2) throws Exception {
+                        DataInputStream dis = stringPortableDataStreamTuple2._2.open();
+                        Tika tika = new Tika();
+                        MetadataStore metadataStore = new MetadataStore();
+                        Metadata tikaMetadata = new Metadata();
+                        tika.parse(dis, tikaMetadata);
+                        String[] names = tikaMetadata.names();
+                        metadataStore.getMetadata().put("File Name", stringPortableDataStreamTuple2._1);
+                        for (String name : names) {
+                            metadataStore.getMetadata().put(name, tikaMetadata.get(name));
+                        }
+                        return metadataStore;
+                    }
+                });
+                Path outputPath = new Path(args[1] + "/" + arg);
+                if (fs.exists(outputPath)) {
+                    fs.delete(outputPath, true);
+                }
+                results.saveAsTextFile(args[1] + "/" + arg); // is coalesce(1,true).saveAsTextFile needed ?
+            }
         } catch (Exception e) {
             System.err.println("exception in FileDetectorHdfs");
             e.printStackTrace();

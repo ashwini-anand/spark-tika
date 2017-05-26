@@ -8,6 +8,10 @@ After .jar , first param is input path , second param is output path , third par
 <br/><br/>
 <b>To use G1GC garbage collector and to print garbage collection details run following command</b>: <br/>
 $spark-submit --class FileDetectorHdfs --master yarn --deploy-mode cluster --driver-memory 6g --executor-memory 24g --num-executors 4 --executor-cores 10 --conf "spark.executor.extraJavaOptions=-XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps" --queue default jars/tmpvar/spark-tika.jar /user/pdf_100000kb_160_files /user/root/output 40
+<br/><br/>
+<b> To understand spark UI and to troubleshoot spark application please follow the below link</b>:<br/>
+ https://github.com/ashwini-anand/Understanding-Spark-UI-and-Troubleshooting-application
+
 <br/><br/>Misc: <br />
 1) Setting spark version <br />
 $export SPARK_MAJOR_VERSION=version_num <br />
